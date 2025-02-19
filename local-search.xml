@@ -12,6 +12,12 @@
     
     
     
+    <tags>
+      
+      <tag>flowable</tag>
+      
+    </tags>
+    
   </entry>
   
   
@@ -24,6 +30,12 @@
     <content type="html"><![CDATA[<h1 id="Java-Exception相关知识总结"><a href="#Java-Exception相关知识总结" class="headerlink" title="Java Exception相关知识总结"></a>Java Exception相关知识总结</h1><p>首先引入一个JavaGuide的Java异常类层次结构图概览</p><h2 id="Exception和Error的区别"><a href="#Exception和Error的区别" class="headerlink" title="Exception和Error的区别"></a>Exception和Error的区别</h2><p>根据结构图Exception和Error都是继承自Throwable</p><ul><li>Exception是异常，指定是程序本身的异常，分为Checked Exception和Unchecked Exception<ul><li>Checked Exception即受检查异常，指的是需要进行检查，如catch或throws处理，不然不会编译通过。</li><li>Unchecked Exception即不受检查异常，不需要处理也可以正常编译。</li></ul></li><li>error是程序无法处理的错误，通常来说是虚拟机的错误，可以结合虚拟机的组成去思考，包括虚拟机堆内存溢出，栈内存溢出，虚拟机运行错误等。</li></ul><h2 id="常见的Checked-Exception"><a href="#常见的Checked-Exception" class="headerlink" title="常见的Checked Exception"></a>常见的Checked Exception</h2><p>除了RuntimeException及其子类外，其他Exception类及其子类都属于受检查异常。常见的包括IO相关的，数据库相关的异常。</p><ul><li><p>编码异常UnsupportedEncodingException</p><img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219181821666.png" title="hh"/></li><li><p>文件异常FileNotFoundException</p><img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219182030186.png" title="hh"/></li><li><p>IO操作异常IOException</p><img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219182226721.png" title="hh"/></li><li><p>数据库异常SQLException</p><img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219182614258.png" title="hh"/></li></ul><h2 id="常见的Unchecked-Exception"><a href="#常见的Unchecked-Exception" class="headerlink" title="常见的Unchecked Exception"></a>常见的Unchecked Exception</h2><ul><li>NullPointerException 空指针异常</li></ul><img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219182445575.png" title="hh"/><ul><li><p>ArithmeticException 算数异常</p><img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219182703489.png" title="hh"/></li><li><p>ClassCastException类型转换异常</p></li></ul><img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219183222229.png" title="hh"/><ul><li>ArrayIndexOutOfBoundsException 数组越界异常</li></ul><img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219182956485.png" title="hh"/><ul><li><p>NumberFormatException 字符串转换数值异常</p><img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219183128603.png" title="hh"/></li><li><p>此外，自己实现的继承RuntimeException的统一异常类</p></li></ul>]]></content>
     
     
+    
+    <tags>
+      
+      <tag>面试</tag>
+      
+    </tags>
     
   </entry>
   
@@ -38,18 +50,11 @@
     
     
     
-  </entry>
-  
-  
-  
-  <entry>
-    <title>Redis面试题</title>
-    <link href="/2024/09/28/Redis%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
-    <url>/2024/09/28/Redis%E9%9D%A2%E8%AF%95%E9%A2%98/</url>
-    
-    <content type="html"><![CDATA[<h2 id="Redis相关面试题"><a href="#Redis相关面试题" class="headerlink" title="Redis相关面试题"></a>Redis相关面试题</h2><h4 id="什么是缓存穿透-怎么解决"><a href="#什么是缓存穿透-怎么解决" class="headerlink" title="什么是缓存穿透 ? 怎么解决 ?"></a>什么是缓存穿透 ? 怎么解决 ?</h4><blockquote><p>缓存穿透是指查询一个一定<strong>不存在</strong>的数据，如果从存储层查不到数据则不写入缓存，这将导致这个不存在的数据每次请求都要到 DB 去查询，可能导致 DB 挂掉。这种情况大概率是遭到了攻击。</p><p>解决方案的话，我们通常都会用布隆过滤器来解决它</p></blockquote><h4 id="布隆过滤器"><a href="#布隆过滤器" class="headerlink" title="布隆过滤器"></a>布隆过滤器</h4><blockquote><p>布隆过滤器主要是用于检索一个元素是否在一个集合中。</p><p>它的底层主要是先去初始化一个比较大数组，里面存放的二进制0或1。在一开始都是0，当一个key来了之后经过3次hash计算，模于数组长度找到数据的下标然后把数组中原来的0改为1，这样的话，三个数组的位置就能标明一个key的存在。查找的过程也是一样的。</p><p>当然是有缺点的，布隆过滤器有可能会产生一定的误判，我们一般可以设置这个误判率，大概不会超过5%，其实这个误判是必然存在的，要不就得增加数组的长度，其实已经算是很划分了，5%以内的误判率一般的项目也能接受，不至于高并发下压倒数据库。</p></blockquote><h4 id="什么是缓存击穿-怎么解决"><a href="#什么是缓存击穿-怎么解决" class="headerlink" title="什么是缓存击穿 ? 怎么解决 ?"></a>什么是缓存击穿 ? 怎么解决 ?</h4><blockquote><p>缓存击穿的意思是对于设置了过期时间的key，缓存在某个时间点过期的时候，恰好这时间点对这个Key有大量的并发请求过来，这些请求发现缓存过期一般都会从后端 DB 加载数据并回设到缓存，这个时候大并发的请求可能会瞬间把 DB 压垮。</p><p>解决方案有两种方式：</p><p>第一可以使用互斥锁：当缓存失效时，不立即去load db，先使用如 Redis 的 setnx 去设置一个互斥锁，当操作成功返回时再进行 load db的操作并回设缓存，否则重试get缓存的方法</p><p>第二种方案可以设置当前key逻辑过期，大概是思路如下：</p><p>①：在设置key的时候，设置一个过期时间字段一块存入缓存中，不给当前key设置过期时间</p><p>②：当查询的时候，从redis取出数据后判断时间是否过期</p><p>③：如果过期则开通另外一个线程进行数据同步，当前线程正常返回数据，这个数据不是最新</p><p>当然两种方案各有利弊：</p><p>如果选择数据的强一致性，建议使用分布式锁的方案，性能上可能没那么高，锁需要等，也有可能产生死锁的问题</p><p>如果选择key的逻辑删除，则优先考虑的高可用性，性能比较高，但是数据同步这块做不到强一致。</p></blockquote><h4 id="什么是缓存雪崩-怎么解决"><a href="#什么是缓存雪崩-怎么解决" class="headerlink" title="什么是缓存雪崩 ? 怎么解决 ?"></a>什么是缓存雪崩 ? 怎么解决 ?</h4><blockquote><p>缓存雪崩意思是设置缓存时采用了相同的过期时间，导致缓存在某一时刻同时失效，请求全部转发到DB，DB 瞬时压力过重雪崩。与缓存击穿的区别：雪崩是很多key，击穿是某一个key缓存。</p><p>解决方案主要是可以将缓存失效时间分散开，比如可以在原有的失效时间基础上增加一个随机值，比如1-5分钟随机，这样每一个缓存的过期时间的重复率就会降低，就很难引发集体失效的事件。</p></blockquote><h4 id="redis做为缓存，mysql的数据如何与redis进行同步呢？（双写一致性）"><a href="#redis做为缓存，mysql的数据如何与redis进行同步呢？（双写一致性）" class="headerlink" title="redis做为缓存，mysql的数据如何与redis进行同步呢？（双写一致性）"></a>redis做为缓存，mysql的数据如何与redis进行同步呢？（双写一致性）</h4><blockquote><p>强一致：采用的是redisson实现的读写锁，在读的时候添加共享锁，可以保证读读不互斥，读写互斥。当我们更新数据的时候，添加排他锁，它是读写，读读都互斥，这样就能保证在写数据的同时是不会让其他线程读数据的，避免了脏数据。这里面需要注意的是读方法和写方法上需要使用同一把锁才行。</p><p>有延时：延迟双删，mq通知</p></blockquote><h4 id="redis做为缓存，数据的持久化是怎么做的？"><a href="#redis做为缓存，数据的持久化是怎么做的？" class="headerlink" title="redis做为缓存，数据的持久化是怎么做的？"></a>redis做为缓存，数据的持久化是怎么做的？</h4><blockquote><p>在Redis中提供了两种数据持久化的方式：1、RDB  2、AOF</p><p>RDB是一个快照文件，它是把redis内存存储的数据写到磁盘上，当redis实例宕机恢复数据的时候，方便从RDB的快照文件中恢复数据。Redis内部有触发RDB的机制，如60秒内100次修改</p><p>AOF的含义是追加文件，当redis操作写命令的时候，都会存储这个文件中，当redis实例宕机恢复数据的时候，会从这个文件中再次执行一遍命令来恢复数据。</p><p>RDB因为是二进制文件，在保存的时候体积也是比较小的，它恢复的比较快，但是它有可能会丢数据，我们通常在项目中也会使用AOF来恢复数据，虽然AOF恢复的速度慢一些，但是它丢数据的风险要小很多，在AOF文件中可以设置刷盘策略，我们当时设置的就是每秒批量写入一次命令</p></blockquote><h4 id="Redis的数据过期策略有哪些"><a href="#Redis的数据过期策略有哪些" class="headerlink" title="Redis的数据过期策略有哪些 ?"></a>Redis的数据过期策略有哪些 ?</h4><blockquote><p>第一种是惰性删除，在设置该key过期时间后，我们不去管它，当需要该key时，我们在检查其是否过期，如果过期，我们就删掉它，反之返回该key。</p><p>第二种是 定期删除，就是说每隔一段时间，我们就对一些key进行检查，删除里面过期的key</p><p>定期清理的两种模式：</p><ul><li>SLOW模式是定时任务，执行频率默认为10hz，每次不超过25ms，以通过修改配置文件redis.conf 的 <strong>hz</strong> 选项来调整这个次数</li><li>FAST模式执行频率不固定，每次事件循环会尝试执行，但两次间隔不低于2ms，每次耗时不超过1ms</li></ul><p>Redis的过期删除策略：<strong>惰性删除 + 定期删除</strong>两种策略进行配合使用。</p></blockquote><h4 id="Redis的数据淘汰策略有哪些"><a href="#Redis的数据淘汰策略有哪些" class="headerlink" title="Redis的数据淘汰策略有哪些 ?"></a>Redis的数据淘汰策略有哪些 ?</h4><blockquote><p>在redis中提供了很多种，默认是noeviction，不删除任何数据，内部不足直接报错</p><p>是可以在redis的配置文件中进行设置的，里面有两个非常重要的概念，一个是LRU，另外一个是LFU</p><p>LRU的意思就是最少最近使用，用当前时间减去最后一次访问时间，这个值越大则淘汰优先级越高。</p><p>LFU的意思是最少频率使用。会统计每个key的访问频率，值越小淘汰优先级越高</p><p>我们在项目设置的allkeys-lru，挑选最近最少使用的数据淘汰，把一些经常访问的key留在redis中</p></blockquote><h4 id="数据库有1000万数据-Redis只能缓存20w数据-如何保证Redis中的数据都是热点数据"><a href="#数据库有1000万数据-Redis只能缓存20w数据-如何保证Redis中的数据都是热点数据" class="headerlink" title="数据库有1000万数据 ,Redis只能缓存20w数据, 如何保证Redis中的数据都是热点数据 ?"></a>数据库有1000万数据 ,Redis只能缓存20w数据, 如何保证Redis中的数据都是热点数据 ?</h4><blockquote><p>这个要看redis的数据淘汰策略是什么，如果是默认的配置，redis内存用完以后则直接报错。我们当时设置的 allkeys-lru 策略。把最近最常访问的数据留在缓存中。</p></blockquote><h4 id="Redis分布式锁如何实现"><a href="#Redis分布式锁如何实现" class="headerlink" title="Redis分布式锁如何实现 ?"></a>Redis分布式锁如何实现 ?</h4><blockquote><p>在redis中提供了一个命令setnx(SET if not exists)</p><p>由于redis的单线程的，用了命令之后，只能有一个客户端对某一个key设置值，在没有过期或删除key的时候是其他客户端是不能设置这个key的</p></blockquote><h4 id="如何控制Redis实现分布式锁有效时长"><a href="#如何控制Redis实现分布式锁有效时长" class="headerlink" title="如何控制Redis实现分布式锁有效时长"></a>如何控制Redis实现分布式锁有效时长</h4><blockquote><p>redis的setnx指令不好控制这个问题，我们当时采用的redis的一个框架redisson实现的。</p><p>在redisson中需要手动加锁，并且可以控制锁的失效时间和等待时间，当锁住的一个业务还没有执行完成的时候，在redisson中引入了一个看门狗机制，就是说每隔一段时间就检查当前业务是否还持有锁，如果持有就增加加锁的持有时间，当业务执行完成之后需要使用释放锁就可以了</p><p>还有一个好处就是，在高并发下，一个业务有可能会执行很快，先客户1持有锁的时候，客户2来了以后并不会马上拒绝，它会自旋不断尝试获取锁，如果客户1释放之后，客户2就可以马上持有锁，性能也得到了提升。</p></blockquote><h4 id="redisson实现的分布式锁是可重入的吗？"><a href="#redisson实现的分布式锁是可重入的吗？" class="headerlink" title="redisson实现的分布式锁是可重入的吗？"></a>redisson实现的分布式锁是可重入的吗？</h4><blockquote><p>是可以重入的。这样做是为了避免死锁的产生。这个重入其实在内部就是判断是否是当前线程持有的锁，如果是当前线程持有的锁就会计数，如果释放锁就会在计算上减一。在存储数据的时候采用的hash结构，大key可以按照自己的业务进行定制，其中小key是当前线程的唯一标识，value是当前线程重入的次数</p></blockquote><h4 id="redisson实现的分布式锁能解决主从一致性的问题吗"><a href="#redisson实现的分布式锁能解决主从一致性的问题吗" class="headerlink" title="redisson实现的分布式锁能解决主从一致性的问题吗"></a>redisson实现的分布式锁能解决主从一致性的问题吗</h4><blockquote><p>这个是不能的，比如，当线程1加锁成功后，master节点数据会异步复制到slave节点，此时当前持有Redis锁的master节点宕机，slave节点被提升为新的master节点，假如现在来了一个线程2，再次加锁，会在新的master节点上加锁成功，这个时候就会出现两个节点同时持有一把锁的问题。</p><p>我们可以利用redisson提供的红锁来解决这个问题，它的主要作用是，不能只在一个redis实例上创建锁，应该是在多个redis实例上创建锁，并且要求在大多数redis节点上都成功创建锁，红锁中要求是redis的节点数量要过半。这样就能避免线程1加锁成功后master节点宕机导致线程2成功加锁到新的master节点上的问题了。</p><p>但是，如果使用了红锁，因为需要同时在多个节点上都添加锁，性能就变的很低了，并且运维维护成本也非常高，所以，我们一般在项目中也不会直接使用红锁，并且官方也暂时废弃了这个红锁</p></blockquote><h4 id="如果业务非要保证数据的强一致性，这个该怎么解决呢？"><a href="#如果业务非要保证数据的强一致性，这个该怎么解决呢？" class="headerlink" title="如果业务非要保证数据的强一致性，这个该怎么解决呢？"></a>如果业务非要保证数据的强一致性，这个该怎么解决呢？</h4><blockquote><p>redis本身就是支持高可用的，做到强一致性，就非常影响性能，所以，如果有强一致性要求高的业务，建议使用zookeeper实现的分布式锁，它是可以保证强一致性的。</p></blockquote><h4 id="Redis集群有哪些方案"><a href="#Redis集群有哪些方案" class="headerlink" title="Redis集群有哪些方案?"></a>Redis集群有哪些方案?</h4><blockquote><p>在Redis中提供的集群方案总共有三种：主从复制、哨兵模式、Redis分片集群</p><p>单节点Redis的并发能力是有上限的，要进一步提高Redis的并发能力，可以搭建主从集群，实现读写分离。一般都是一主多从，主节点负责写数据，从节点负责读数据，主节点写入数据之后，需要把数据同步到从节点中</p><p>主从同步分为了两个阶段，一个是全量同步，一个是增量同步</p><p>全量同步是指从节点第一次与主节点建立连接的时候使用全量同步，流程是这样的：</p><p>第一：从节点请求主节点同步数据，其中从节点会携带自己的replication id和offset偏移量。</p><p>第二：主节点判断是否是第一次请求，主要判断的依据就是，主节点与从节点是否是同一个replication id，如果不是，就说明是第一次同步，那主节点就会把自己的replication id和offset发送给从节点，让从节点与主节点的信息保持一致。</p><p>第三：在同时主节点会执行bgsave，生成rdb文件后，发送给从节点去执行，从节点先把自己的数据清空，然后执行主节点发送过来的rdb文件，这样就保持了一致</p><p>当然，如果在rdb生成执行期间，依然有请求到了主节点，而主节点会以命令的方式记录到缓冲区，缓冲区是一个日志文件，最后把这个日志文件发送给从节点，这样就能保证主节点与从节点完全一致了，后期再同步数据的时候，都是依赖于这个日志文件，这个就是全量同步</p><p>增量同步指的是，当从节点服务重启之后，数据就不一致了，所以这个时候，从节点会请求主节点同步数据，主节点还是判断不是第一次请求，不是第一次就获取从节点的offset值，然后主节点从命令日志中获取offset值之后的数据，发送给从节点进行数据同步</p></blockquote><h4 id="Redis是单线程的，但是为什么还那么快？"><a href="#Redis是单线程的，但是为什么还那么快？" class="headerlink" title="Redis是单线程的，但是为什么还那么快？"></a>Redis是单线程的，但是为什么还那么快？</h4><blockquote><p>1、完全基于内存的，C语言编写</p><p>2、采用单线程，避免不必要的上下文切换可竞争条件</p><p>3、使用多路I&#x2F;O复用模型，非阻塞IO</p></blockquote>]]></content>
-    
-    
+    <tags>
+      
+      <tag>flowable</tag>
+      
+    </tags>
     
   </entry>
   
@@ -64,6 +69,31 @@
     
     
     
+    <tags>
+      
+      <tag>面试</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Redis面试题</title>
+    <link href="/2024/09/28/Redis%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
+    <url>/2024/09/28/Redis%E9%9D%A2%E8%AF%95%E9%A2%98/</url>
+    
+    <content type="html"><![CDATA[<h2 id="Redis相关面试题"><a href="#Redis相关面试题" class="headerlink" title="Redis相关面试题"></a>Redis相关面试题</h2><h4 id="什么是缓存穿透-怎么解决"><a href="#什么是缓存穿透-怎么解决" class="headerlink" title="什么是缓存穿透 ? 怎么解决 ?"></a>什么是缓存穿透 ? 怎么解决 ?</h4><blockquote><p>缓存穿透是指查询一个一定<strong>不存在</strong>的数据，如果从存储层查不到数据则不写入缓存，这将导致这个不存在的数据每次请求都要到 DB 去查询，可能导致 DB 挂掉。这种情况大概率是遭到了攻击。</p><p>解决方案的话，我们通常都会用布隆过滤器来解决它</p></blockquote><h4 id="布隆过滤器"><a href="#布隆过滤器" class="headerlink" title="布隆过滤器"></a>布隆过滤器</h4><blockquote><p>布隆过滤器主要是用于检索一个元素是否在一个集合中。</p><p>它的底层主要是先去初始化一个比较大数组，里面存放的二进制0或1。在一开始都是0，当一个key来了之后经过3次hash计算，模于数组长度找到数据的下标然后把数组中原来的0改为1，这样的话，三个数组的位置就能标明一个key的存在。查找的过程也是一样的。</p><p>当然是有缺点的，布隆过滤器有可能会产生一定的误判，我们一般可以设置这个误判率，大概不会超过5%，其实这个误判是必然存在的，要不就得增加数组的长度，其实已经算是很划分了，5%以内的误判率一般的项目也能接受，不至于高并发下压倒数据库。</p></blockquote><h4 id="什么是缓存击穿-怎么解决"><a href="#什么是缓存击穿-怎么解决" class="headerlink" title="什么是缓存击穿 ? 怎么解决 ?"></a>什么是缓存击穿 ? 怎么解决 ?</h4><blockquote><p>缓存击穿的意思是对于设置了过期时间的key，缓存在某个时间点过期的时候，恰好这时间点对这个Key有大量的并发请求过来，这些请求发现缓存过期一般都会从后端 DB 加载数据并回设到缓存，这个时候大并发的请求可能会瞬间把 DB 压垮。</p><p>解决方案有两种方式：</p><p>第一可以使用互斥锁：当缓存失效时，不立即去load db，先使用如 Redis 的 setnx 去设置一个互斥锁，当操作成功返回时再进行 load db的操作并回设缓存，否则重试get缓存的方法</p><p>第二种方案可以设置当前key逻辑过期，大概是思路如下：</p><p>①：在设置key的时候，设置一个过期时间字段一块存入缓存中，不给当前key设置过期时间</p><p>②：当查询的时候，从redis取出数据后判断时间是否过期</p><p>③：如果过期则开通另外一个线程进行数据同步，当前线程正常返回数据，这个数据不是最新</p><p>当然两种方案各有利弊：</p><p>如果选择数据的强一致性，建议使用分布式锁的方案，性能上可能没那么高，锁需要等，也有可能产生死锁的问题</p><p>如果选择key的逻辑删除，则优先考虑的高可用性，性能比较高，但是数据同步这块做不到强一致。</p></blockquote><h4 id="什么是缓存雪崩-怎么解决"><a href="#什么是缓存雪崩-怎么解决" class="headerlink" title="什么是缓存雪崩 ? 怎么解决 ?"></a>什么是缓存雪崩 ? 怎么解决 ?</h4><blockquote><p>缓存雪崩意思是设置缓存时采用了相同的过期时间，导致缓存在某一时刻同时失效，请求全部转发到DB，DB 瞬时压力过重雪崩。与缓存击穿的区别：雪崩是很多key，击穿是某一个key缓存。</p><p>解决方案主要是可以将缓存失效时间分散开，比如可以在原有的失效时间基础上增加一个随机值，比如1-5分钟随机，这样每一个缓存的过期时间的重复率就会降低，就很难引发集体失效的事件。</p></blockquote><h4 id="redis做为缓存，mysql的数据如何与redis进行同步呢？（双写一致性）"><a href="#redis做为缓存，mysql的数据如何与redis进行同步呢？（双写一致性）" class="headerlink" title="redis做为缓存，mysql的数据如何与redis进行同步呢？（双写一致性）"></a>redis做为缓存，mysql的数据如何与redis进行同步呢？（双写一致性）</h4><blockquote><p>强一致：采用的是redisson实现的读写锁，在读的时候添加共享锁，可以保证读读不互斥，读写互斥。当我们更新数据的时候，添加排他锁，它是读写，读读都互斥，这样就能保证在写数据的同时是不会让其他线程读数据的，避免了脏数据。这里面需要注意的是读方法和写方法上需要使用同一把锁才行。</p><p>有延时：延迟双删，mq通知</p></blockquote><h4 id="redis做为缓存，数据的持久化是怎么做的？"><a href="#redis做为缓存，数据的持久化是怎么做的？" class="headerlink" title="redis做为缓存，数据的持久化是怎么做的？"></a>redis做为缓存，数据的持久化是怎么做的？</h4><blockquote><p>在Redis中提供了两种数据持久化的方式：1、RDB  2、AOF</p><p>RDB是一个快照文件，它是把redis内存存储的数据写到磁盘上，当redis实例宕机恢复数据的时候，方便从RDB的快照文件中恢复数据。Redis内部有触发RDB的机制，如60秒内100次修改</p><p>AOF的含义是追加文件，当redis操作写命令的时候，都会存储这个文件中，当redis实例宕机恢复数据的时候，会从这个文件中再次执行一遍命令来恢复数据。</p><p>RDB因为是二进制文件，在保存的时候体积也是比较小的，它恢复的比较快，但是它有可能会丢数据，我们通常在项目中也会使用AOF来恢复数据，虽然AOF恢复的速度慢一些，但是它丢数据的风险要小很多，在AOF文件中可以设置刷盘策略，我们当时设置的就是每秒批量写入一次命令</p></blockquote><h4 id="Redis的数据过期策略有哪些"><a href="#Redis的数据过期策略有哪些" class="headerlink" title="Redis的数据过期策略有哪些 ?"></a>Redis的数据过期策略有哪些 ?</h4><blockquote><p>第一种是惰性删除，在设置该key过期时间后，我们不去管它，当需要该key时，我们在检查其是否过期，如果过期，我们就删掉它，反之返回该key。</p><p>第二种是 定期删除，就是说每隔一段时间，我们就对一些key进行检查，删除里面过期的key</p><p>定期清理的两种模式：</p><ul><li>SLOW模式是定时任务，执行频率默认为10hz，每次不超过25ms，以通过修改配置文件redis.conf 的 <strong>hz</strong> 选项来调整这个次数</li><li>FAST模式执行频率不固定，每次事件循环会尝试执行，但两次间隔不低于2ms，每次耗时不超过1ms</li></ul><p>Redis的过期删除策略：<strong>惰性删除 + 定期删除</strong>两种策略进行配合使用。</p></blockquote><h4 id="Redis的数据淘汰策略有哪些"><a href="#Redis的数据淘汰策略有哪些" class="headerlink" title="Redis的数据淘汰策略有哪些 ?"></a>Redis的数据淘汰策略有哪些 ?</h4><blockquote><p>在redis中提供了很多种，默认是noeviction，不删除任何数据，内部不足直接报错</p><p>是可以在redis的配置文件中进行设置的，里面有两个非常重要的概念，一个是LRU，另外一个是LFU</p><p>LRU的意思就是最少最近使用，用当前时间减去最后一次访问时间，这个值越大则淘汰优先级越高。</p><p>LFU的意思是最少频率使用。会统计每个key的访问频率，值越小淘汰优先级越高</p><p>我们在项目设置的allkeys-lru，挑选最近最少使用的数据淘汰，把一些经常访问的key留在redis中</p></blockquote><h4 id="数据库有1000万数据-Redis只能缓存20w数据-如何保证Redis中的数据都是热点数据"><a href="#数据库有1000万数据-Redis只能缓存20w数据-如何保证Redis中的数据都是热点数据" class="headerlink" title="数据库有1000万数据 ,Redis只能缓存20w数据, 如何保证Redis中的数据都是热点数据 ?"></a>数据库有1000万数据 ,Redis只能缓存20w数据, 如何保证Redis中的数据都是热点数据 ?</h4><blockquote><p>这个要看redis的数据淘汰策略是什么，如果是默认的配置，redis内存用完以后则直接报错。我们当时设置的 allkeys-lru 策略。把最近最常访问的数据留在缓存中。</p></blockquote><h4 id="Redis分布式锁如何实现"><a href="#Redis分布式锁如何实现" class="headerlink" title="Redis分布式锁如何实现 ?"></a>Redis分布式锁如何实现 ?</h4><blockquote><p>在redis中提供了一个命令setnx(SET if not exists)</p><p>由于redis的单线程的，用了命令之后，只能有一个客户端对某一个key设置值，在没有过期或删除key的时候是其他客户端是不能设置这个key的</p></blockquote><h4 id="如何控制Redis实现分布式锁有效时长"><a href="#如何控制Redis实现分布式锁有效时长" class="headerlink" title="如何控制Redis实现分布式锁有效时长"></a>如何控制Redis实现分布式锁有效时长</h4><blockquote><p>redis的setnx指令不好控制这个问题，我们当时采用的redis的一个框架redisson实现的。</p><p>在redisson中需要手动加锁，并且可以控制锁的失效时间和等待时间，当锁住的一个业务还没有执行完成的时候，在redisson中引入了一个看门狗机制，就是说每隔一段时间就检查当前业务是否还持有锁，如果持有就增加加锁的持有时间，当业务执行完成之后需要使用释放锁就可以了</p><p>还有一个好处就是，在高并发下，一个业务有可能会执行很快，先客户1持有锁的时候，客户2来了以后并不会马上拒绝，它会自旋不断尝试获取锁，如果客户1释放之后，客户2就可以马上持有锁，性能也得到了提升。</p></blockquote><h4 id="redisson实现的分布式锁是可重入的吗？"><a href="#redisson实现的分布式锁是可重入的吗？" class="headerlink" title="redisson实现的分布式锁是可重入的吗？"></a>redisson实现的分布式锁是可重入的吗？</h4><blockquote><p>是可以重入的。这样做是为了避免死锁的产生。这个重入其实在内部就是判断是否是当前线程持有的锁，如果是当前线程持有的锁就会计数，如果释放锁就会在计算上减一。在存储数据的时候采用的hash结构，大key可以按照自己的业务进行定制，其中小key是当前线程的唯一标识，value是当前线程重入的次数</p></blockquote><h4 id="redisson实现的分布式锁能解决主从一致性的问题吗"><a href="#redisson实现的分布式锁能解决主从一致性的问题吗" class="headerlink" title="redisson实现的分布式锁能解决主从一致性的问题吗"></a>redisson实现的分布式锁能解决主从一致性的问题吗</h4><blockquote><p>这个是不能的，比如，当线程1加锁成功后，master节点数据会异步复制到slave节点，此时当前持有Redis锁的master节点宕机，slave节点被提升为新的master节点，假如现在来了一个线程2，再次加锁，会在新的master节点上加锁成功，这个时候就会出现两个节点同时持有一把锁的问题。</p><p>我们可以利用redisson提供的红锁来解决这个问题，它的主要作用是，不能只在一个redis实例上创建锁，应该是在多个redis实例上创建锁，并且要求在大多数redis节点上都成功创建锁，红锁中要求是redis的节点数量要过半。这样就能避免线程1加锁成功后master节点宕机导致线程2成功加锁到新的master节点上的问题了。</p><p>但是，如果使用了红锁，因为需要同时在多个节点上都添加锁，性能就变的很低了，并且运维维护成本也非常高，所以，我们一般在项目中也不会直接使用红锁，并且官方也暂时废弃了这个红锁</p></blockquote><h4 id="如果业务非要保证数据的强一致性，这个该怎么解决呢？"><a href="#如果业务非要保证数据的强一致性，这个该怎么解决呢？" class="headerlink" title="如果业务非要保证数据的强一致性，这个该怎么解决呢？"></a>如果业务非要保证数据的强一致性，这个该怎么解决呢？</h4><blockquote><p>redis本身就是支持高可用的，做到强一致性，就非常影响性能，所以，如果有强一致性要求高的业务，建议使用zookeeper实现的分布式锁，它是可以保证强一致性的。</p></blockquote><h4 id="Redis集群有哪些方案"><a href="#Redis集群有哪些方案" class="headerlink" title="Redis集群有哪些方案?"></a>Redis集群有哪些方案?</h4><blockquote><p>在Redis中提供的集群方案总共有三种：主从复制、哨兵模式、Redis分片集群</p><p>单节点Redis的并发能力是有上限的，要进一步提高Redis的并发能力，可以搭建主从集群，实现读写分离。一般都是一主多从，主节点负责写数据，从节点负责读数据，主节点写入数据之后，需要把数据同步到从节点中</p><p>主从同步分为了两个阶段，一个是全量同步，一个是增量同步</p><p>全量同步是指从节点第一次与主节点建立连接的时候使用全量同步，流程是这样的：</p><p>第一：从节点请求主节点同步数据，其中从节点会携带自己的replication id和offset偏移量。</p><p>第二：主节点判断是否是第一次请求，主要判断的依据就是，主节点与从节点是否是同一个replication id，如果不是，就说明是第一次同步，那主节点就会把自己的replication id和offset发送给从节点，让从节点与主节点的信息保持一致。</p><p>第三：在同时主节点会执行bgsave，生成rdb文件后，发送给从节点去执行，从节点先把自己的数据清空，然后执行主节点发送过来的rdb文件，这样就保持了一致</p><p>当然，如果在rdb生成执行期间，依然有请求到了主节点，而主节点会以命令的方式记录到缓冲区，缓冲区是一个日志文件，最后把这个日志文件发送给从节点，这样就能保证主节点与从节点完全一致了，后期再同步数据的时候，都是依赖于这个日志文件，这个就是全量同步</p><p>增量同步指的是，当从节点服务重启之后，数据就不一致了，所以这个时候，从节点会请求主节点同步数据，主节点还是判断不是第一次请求，不是第一次就获取从节点的offset值，然后主节点从命令日志中获取offset值之后的数据，发送给从节点进行数据同步</p></blockquote><h4 id="Redis是单线程的，但是为什么还那么快？"><a href="#Redis是单线程的，但是为什么还那么快？" class="headerlink" title="Redis是单线程的，但是为什么还那么快？"></a>Redis是单线程的，但是为什么还那么快？</h4><blockquote><p>1、完全基于内存的，C语言编写</p><p>2、采用单线程，避免不必要的上下文切换可竞争条件</p><p>3、使用多路I&#x2F;O复用模型，非阻塞IO</p></blockquote>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>面试</tag>
+      
+    </tags>
+    
   </entry>
   
   
@@ -76,6 +106,12 @@
     <content type="html"><![CDATA[<h2 id="Java集合相关面试题"><a href="#Java集合相关面试题" class="headerlink" title="Java集合相关面试题"></a>Java集合相关面试题</h2><ul><li>ArrayList底层实现是数组</li><li>LinkedList底层实现是双向链表</li><li>HashMap的底层实现使用了包括数组、链表、散列表、红黑树等多种数据结构</li></ul><h3 id="Java容器有哪些"><a href="#Java容器有哪些" class="headerlink" title="Java容器有哪些"></a>Java容器有哪些</h3><blockquote><ul><li>Collection 的子类 List、Set<ul><li>List 的子类 ArrayList、LinkedList等</li><li>Set 的子类 HashSet、TreeSet等</li></ul></li><li>Map 的子类 HashMap、TreeMap</li></ul></blockquote><h3 id="ArrayList基本原理"><a href="#ArrayList基本原理" class="headerlink" title="ArrayList基本原理"></a>ArrayList基本原理</h3><blockquote><ul><li>底层是使用动态数值实现的</li><li>未指定大小时初始容量为零，返回的是统一的空实例，并且在第一次添加数据时才会扩容为默认的10；指定大小则创建对应大小的数组</li><li>扩容时每次扩容原来的1.5倍，每次扩容都需要拷贝数组</li><li>添加数据时，先检查加入后时候小于数组容量，若大于，则先执行扩容逻辑后添加</li></ul></blockquote><h4 id="面试题-ArrayList-list-new-ArrayList-10-中的list扩容几次"><a href="#面试题-ArrayList-list-new-ArrayList-10-中的list扩容几次" class="headerlink" title="面试题-ArrayList list&#x3D;new ArrayList(10)中的list扩容几次"></a>面试题-ArrayList list&#x3D;new ArrayList(10)中的list扩容几次</h4><blockquote><p>直接指定了初始数组大小，未扩容</p></blockquote><h4 id="面试题-如何实现数组和List之间的转换"><a href="#面试题-如何实现数组和List之间的转换" class="headerlink" title="面试题-如何实现数组和List之间的转换"></a>面试题-如何实现数组和List之间的转换</h4><blockquote><ul><li><p>数组转List，使用JDK中的java.util.Arrays工具类的asList方法</p><p><strong>注意：</strong>Arrays.asList转换list之后，如果修改了数组的内容，list会受影响，因为它的底层使用的Arrays类中的一个内部类ArrayList来构造的集合，在这个集合的构造器中，把我们传入的这个集合进行了包装而已，最终指向的都是同一个内存地址</p></li><li><p>List转数组，使用List的toArray方法。无参toArray方法返回 Object数组，传入初始化长度的数组对象，返回该对象数组</p></li></ul></blockquote><h4 id="面试题-ArrayList和LinkedList的区别是什么？"><a href="#面试题-ArrayList和LinkedList的区别是什么？" class="headerlink" title="面试题-ArrayList和LinkedList的区别是什么？"></a>面试题-ArrayList和LinkedList的区别是什么？</h4><blockquote><ul><li>底层数据</li></ul><ul><li><p>ArrayList 是动态数组的数据结构实现</p></li><li><p>LinkedList 是双向链表的数据结构实现</p></li></ul><ul><li>操作数据效率</li></ul><ul><li>ArrayList按照下标查询的时间复杂度O(1)【内存是连续的，根据寻址公式】， LinkedList不支持下标查询</li><li>查找（未知索引）： ArrayList需要遍历，链表也需要链表，时间复杂度都是O(n)</li><li>新增和删除<ul><li>ArrayList尾部插入和删除，时间复杂度是O(1)；其他部分增删需要挪动数组，时间复杂度是O(n)</li><li>LinkedList头尾节点增删时间复杂度是O(1)，其他都需要遍历链表，时间复杂度是O(n)</li></ul></li></ul><ul><li>内存空间占用</li></ul><ul><li><p>ArrayList底层是数组，内存连续，节省内存</p></li><li><p>LinkedList 是双向链表需要存储数据，和两个指针，更占用内存</p></li></ul><ul><li>线程安全</li></ul><ul><li>ArrayList和LinkedList都不是线程安全的</li><li>如果需要保证线程安全，有两种方案：<ul><li>在方法内使用，局部变量则是线程安全的</li><li>使用线程安全的ArrayList和LinkedList</li></ul></li></ul></blockquote><h3 id="HashMap的实现原理"><a href="#HashMap的实现原理" class="headerlink" title="HashMap的实现原理"></a>HashMap的实现原理</h3><blockquote><p>HashMap的数据结构： 底层使用hash表数据结构，即数组和链表或红黑树</p><ol><li><p>当我们往HashMap中put元素时，利用key的hashCode重新hash计算出当前对象的元素在数组中的下标 </p></li><li><p>存储时，如果出现hash值相同的key，此时有两种情况。</p></li></ol><p>  a. 如果key相同，则覆盖原始值；</p><p>  b. 如果key不同（出现冲突），则将当前的key-value放入链表或红黑树中 </p><ol start="3"><li>获取时，直接找到hash值对应的下标，在进一步判断key是否相同，从而找到对应值。</li></ol><p><strong>注意</strong></p><ul><li><p>JDK1.8之前采用的是拉链法。拉链法：将链表和数组相结合。也就是说创建一个链表数组，数组中每一格就是一个链表。若遇到哈希冲突，则将冲突的值加到链表中即可。</p></li><li><p>jdk1.8在解决哈希冲突时有了较大的变化，当链表长度大于阈值（默认为8） 时并且数组长度达到64时，将链表转化为红黑树，以减少搜索时间。扩容 resize( ) 时，红黑树拆分成的树的结点数小于等于临界值6个，则退化成链表</p></li></ul></blockquote><h4 id="面试题-HashMap的put方法的具体流程"><a href="#面试题-HashMap的put方法的具体流程" class="headerlink" title="面试题-HashMap的put方法的具体流程"></a>面试题-HashMap的put方法的具体流程</h4><blockquote><ol><li><p>判断键值对数组table是否为空或为null，否则执行resize()进行扩容（初始化）</p></li><li><p>根据键值key计算hash值得到数组索引</p></li><li><p>判断table[i]&#x3D;&#x3D;null，条件成立，直接新建节点添加</p></li><li><p>如果table[i]&#x3D;&#x3D;null ,不成立</p><p>4.1 判断table[i]的首个元素是否和key一样，如果相同直接覆盖value</p><p>4.2 判断table[i] 是否为treeNode，即table[i] 是否是红黑树，如果是红黑树，则直接在树中插入键值对</p><p>4.3 遍历table[i]，链表的尾部插入数据，然后判断链表长度是否大于8，大于8的话把链表转换为红黑树，在红黑树中执行插入操 作，遍历过程中若发现key已经存在直接覆盖value</p></li><li><p>插入成功后，判断实际存在的键值对数量size是否超多了最大容量threshold（数组长度*0.75），如果超过，进行扩容。</p></li></ol></blockquote><h4 id="面试题-讲一讲HashMap的扩容机制"><a href="#面试题-讲一讲HashMap的扩容机制" class="headerlink" title="面试题-讲一讲HashMap的扩容机制"></a>面试题-讲一讲HashMap的扩容机制</h4><blockquote><ul><li><p>在添加元素或初始化的时候需要调用resize方法进行扩容，第一次添加数据初始化数组长度为16，以后每次每次扩容都是达到了扩容阈值（数组长度 * 0.75）</p></li><li><p>每次扩容的时候，都是扩容之前容量的2倍； </p></li><li><p>扩容之后，会新创建一个数组，需要把老数组中的数据挪动到新的数组中</p><ul><li>没有hash冲突的节点，则直接使用 e.hash &amp; (newCap - 1) 计算新数组的索引位置</li><li>如果是红黑树，走红黑树的添加</li><li>如果是链表，则需要遍历链表，可能需要拆分链表，判断(e.hash &amp; oldCap)是否为0，该元素的位置要么停留在原始位置，要么移动到原始位置+增加的数组大小这个位置上</li></ul></li></ul></blockquote><h4 id="面试题-HashSet与HashMap的区别"><a href="#面试题-HashSet与HashMap的区别" class="headerlink" title="面试题-HashSet与HashMap的区别"></a>面试题-HashSet与HashMap的区别</h4><blockquote><p>(1)HashSet实现了Set接口, 仅存储对象; HashMap实现了 Map接口, 存储的是键值对.</p><p>(2)HashSet底层其实是用HashMap实现存储的, HashSet封装了一系列HashMap的方法. 依靠HashMap来存储元素值,(利用hashMap的key键进行存储), 而value值默认为Object对象. 所以HashSet也不允许出现重复值, 判断标准和HashMap判断标准相同, 两个元素的hashCode相等并且通过equals()方法返回true.</p></blockquote>]]></content>
     
     
+    
+    <tags>
+      
+      <tag>面试</tag>
+      
+    </tags>
     
   </entry>
   
@@ -90,6 +126,12 @@
     
     
     
+    <tags>
+      
+      <tag>面试</tag>
+      
+    </tags>
+    
   </entry>
   
   
@@ -103,6 +145,12 @@
     
     
     
+    <tags>
+      
+      <tag>面试</tag>
+      
+    </tags>
+    
   </entry>
   
   
@@ -112,9 +160,15 @@
     <link href="/2023/09/01/hexo%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"/>
     <url>/2023/09/01/hexo%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
     
-    <content type="html"><![CDATA[<h2 id="hexo基本操作"><a href="#hexo基本操作" class="headerlink" title="hexo基本操作"></a>hexo基本操作</h2><ol><li>hexo clear   清除缓存</li><li>hexo g       编译生成</li><li>hexo deploy  部署到github</li><li>hexo s      本地运行查看</li></ol>]]></content>
+    <content type="html"><![CDATA[<h2 id="hexo基本操作"><a href="#hexo基本操作" class="headerlink" title="hexo基本操作"></a>hexo基本操作</h2><ol><li>hexo clean   清除缓存</li><li>hexo g       编译生成</li><li>hexo deploy  部署到github</li><li>hexo s      本地运行查看</li></ol>]]></content>
     
     
+    
+    <tags>
+      
+      <tag>基本</tag>
+      
+    </tags>
     
   </entry>
   
