@@ -1,0 +1,754 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/messi.png">
+  <link rel="icon" href="/img/messi.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Zou Shuo">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="flowable最贴心的入门案例，讲清涉及的关键表flowable基本配置 导入如下jar包，包括flowable的核心包，日志包以及mysql包1234567891011121314151617181920&lt;dependency&gt;  &lt;groupId&gt;org.flowable&lt;&#x2F;groupId&gt;  &lt;artifactId&gt;flowable-engi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flowable学习笔记 讲清涉及的关键表">
+<meta property="og:url" content="http://xiaovvde.github.io/2025/01/30/flowable%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="邹硕的博客">
+<meta property="og:description" content="flowable最贴心的入门案例，讲清涉及的关键表flowable基本配置 导入如下jar包，包括flowable的核心包，日志包以及mysql包1234567891011121314151617181920&lt;dependency&gt;  &lt;groupId&gt;org.flowable&lt;&#x2F;groupId&gt;  &lt;artifactId&gt;flowable-engi">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219184152466.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219184334290.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219184746423.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219184814319.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219184907390.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219184932684.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219185023350.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219185048321.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219185112395.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219185550913.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219185615373.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219185639858.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219185708202.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219185727609.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219185743109.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219185824710.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219185847223.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219185904585.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219185920949.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219185936011.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219185957447.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219190039672.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219190018948.png">
+<meta property="article:published_time" content="2025-01-30T12:50:01.000Z">
+<meta property="article:modified_time" content="2025-02-19T11:02:39.256Z">
+<meta property="article:author" content="Zou Shuo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219184152466.png">
+  
+  
+  
+  <title>Flowable学习笔记 讲清涉及的关键表 - 邹硕的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"xiaovvde.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>邹硕的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Flowable学习笔记 讲清涉及的关键表"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-01-30 20:50" pubdate>
+          2025年1月30日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          29 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Flowable学习笔记 讲清涉及的关键表</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="flowable最贴心的入门案例，讲清涉及的关键表"><a href="#flowable最贴心的入门案例，讲清涉及的关键表" class="headerlink" title="flowable最贴心的入门案例，讲清涉及的关键表"></a>flowable最贴心的入门案例，讲清涉及的关键表</h1><h2 id="flowable基本配置"><a href="#flowable基本配置" class="headerlink" title="flowable基本配置"></a>flowable基本配置</h2><ol>
+<li>导入如下jar包，包括flowable的核心包，日志包以及mysql包<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.flowable<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>flowable-engine<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>6.3.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.slf4j<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>slf4j-api<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.7.21<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.slf4j<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>slf4j-log4j12<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.7.21<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>mysql<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mysql-connector-java<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>8.0.21<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+在resources中新建log4j.properties文件，在控制台打印数据库操作相关信息，内容如下：<figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs mel">log4j.rootLogger=DEBUG, CA<br>log4j.appender.CA=org.apache.log4j.ConsoleAppender<br>log4j.appender.CA.<span class="hljs-keyword">layout</span>=org.apache.log4j.PatternLayout<br>log4j.appender.CA.<span class="hljs-keyword">layout</span>.ConversionPattern= %d&#123;hh:mm:ss,SSS&#125; [%t] %-<span class="hljs-number">5</span>p %c %x - %m%n<br></code></pre></td></tr></table></figure></li>
+<li>获取流程引擎<br>代码如下所示，通过简单的方式进行数据库配置和流程引擎的获取，后续的各种操作都依赖于流程引擎。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">ProcessEngineConfiguration</span> <span class="hljs-variable">cfg</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">StandaloneProcessEngineConfiguration</span>()<br>                .setJdbcUrl(<span class="hljs-string">&quot;jdbc:mysql://localhost:3306/flowable-learn?serverTimezone=UTC&amp;nullCatalogMeansCurrent=true&quot;</span>)<br>                .setJdbcUsername(<span class="hljs-string">&quot;root&quot;</span>)<br>                .setJdbcPassword(<span class="hljs-string">&quot;root&quot;</span>)<br>                .setJdbcDriver(<span class="hljs-string">&quot;com.mysql.cj.jdbc.Driver&quot;</span>)<br>                .setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_DROP_CREATE);<br>        <span class="hljs-type">ProcessEngine</span> <span class="hljs-variable">processEngine</span> <span class="hljs-operator">=</span> cfg.buildProcessEngine();<br></code></pre></td></tr></table></figure>
+配置数据库时有四种配置，如下<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">DB_SCHEMA_UPDATE_FALSE</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;false&quot;</span>;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">DB_SCHEMA_UPDATE_CREATE</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;create&quot;</span>;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">DB_SCHEMA_UPDATE_CREATE_DROP</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;create-drop&quot;</span>;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">DB_SCHEMA_UPDATE_DROP_CREATE</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;drop-create&quot;</span>;<br></code></pre></td></tr></table></figure></li>
+<li>DB_SCHEMA_UPDATE_FALSE &#x3D; “false”<br>含义：不自动更新数据库模式。即，应用程序启动时，数据库模式不会发生任何改变。如果数据库中表结构与实体类（或模型）不一致，应用程序将抛出异常，要求手动处理。<br>使用场景：适用于生产环境，避免在启动时自动修改数据库结构，确保数据库的稳定性。</li>
+<li>DB_SCHEMA_UPDATE_CREATE &#x3D; “create”<br>含义：每次应用启动时，都会根据实体类创建新的数据库表。通常会删除现有的表并重新创建。这意味着如果表已经存在，它们将被删除并重新创建（不会保留数据）。<br>使用场景：适用于开发环境或者首次部署时，用于生成表结构。如果不关心数据丢失，可以使用这个选项。</li>
+<li>DB_SCHEMA_UPDATE_CREATE_DROP &#x3D; “create-drop”<br>含义：在应用启动时创建数据库表，在应用停止时删除数据库表。这个选项会在应用的生命周期内创建表，但在应用停止时会删除表，因此适合用于开发、测试或临时环境。<br>使用场景：适用于测试和开发环境，当你不需要持久存储数据库数据时。</li>
+<li>DB_SCHEMA_UPDATE_DROP_CREATE &#x3D; “drop-create”<br>含义：在应用启动时删除现有的数据库表，并根据实体类重新创建表。不同于 create-drop，这个选项不会在应用停止时删除表。它只会在应用启动时删除和创建表，但不影响应用的生命周期。<br>使用场景：适用于开发过程中，当你希望每次启动时都从头开始，重建表结构，但不希望在应用停止时丢失表。</li>
+</ol>
+<h2 id="定义一个审核流程"><a href="#定义一个审核流程" class="headerlink" title="定义一个审核流程"></a>定义一个审核流程</h2><p>如图，通常审核流程包括如下结构，开始节点、结束节点和中间具体执行人的节点，另外有一些形式的审核流程不包括申请人的环节，直接绘制审核流程，通常情况下包含申请人更加合理。并且二者的在操作上并无太大差异，具体可以在了解flowable的工作原理后自行辨别。</p>
+<img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219184152466.png" srcset="/img/loading.gif" lazyload title="hh"/>
+
+<p>如下是对应的xml文件的关键信息，其中包括流程id,流程名称，流程分类,这里还可以定义流程描述和其他的属性信息</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">process</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;flow_z81n3ymf&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;测试流程1&quot;</span> <span class="hljs-attr">flowable:processCategory</span>=<span class="hljs-string">&quot;type1&quot;</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">documentation</span>&gt;</span>测试流程1.<span class="hljs-tag">&lt;/<span class="hljs-name">documentation</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">extensionElements</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">flowable:properties</span>&gt;</span><br>       <span class="hljs-tag">&lt;<span class="hljs-name">flowable:property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;expro1&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;value1&quot;</span> /&gt;</span><br>       <span class="hljs-tag">&lt;<span class="hljs-name">flowable:property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;expro2&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;value2&quot;</span> /&gt;</span><br>     <span class="hljs-tag">&lt;/<span class="hljs-name">flowable:properties</span>&gt;</span><br>   <span class="hljs-tag">&lt;/<span class="hljs-name">extensionElements</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">startEvent</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;start_event&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;开始&quot;</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">outgoing</span>&gt;</span>Flow_03y5jhz<span class="hljs-tag">&lt;/<span class="hljs-name">outgoing</span>&gt;</span><br>   <span class="hljs-tag">&lt;/<span class="hljs-name">startEvent</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">userTask</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;Activity_0egx7q1&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;申请人&quot;</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">incoming</span>&gt;</span>Flow_03y5jhz<span class="hljs-tag">&lt;/<span class="hljs-name">incoming</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">outgoing</span>&gt;</span>Flow_1wluipz<span class="hljs-tag">&lt;/<span class="hljs-name">outgoing</span>&gt;</span><br>   <span class="hljs-tag">&lt;/<span class="hljs-name">userTask</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">userTask</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;Activity_0ovnvli&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;一级处理人&quot;</span> <span class="hljs-attr">flowable:assignee</span>=<span class="hljs-string">&quot;1&quot;</span> <span class="hljs-attr">flowable:userType</span>=<span class="hljs-string">&quot;assignee&quot;</span> <span class="hljs-attr">flowable:dataType</span>=<span class="hljs-string">&quot;fixed&quot;</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">incoming</span>&gt;</span>Flow_1wluipz<span class="hljs-tag">&lt;/<span class="hljs-name">incoming</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">outgoing</span>&gt;</span>Flow_1gldaiz<span class="hljs-tag">&lt;/<span class="hljs-name">outgoing</span>&gt;</span><br>   <span class="hljs-tag">&lt;/<span class="hljs-name">userTask</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">userTask</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;Activity_11blnld&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;二级处理人&quot;</span> <span class="hljs-attr">flowable:assignee</span>=<span class="hljs-string">&quot;1&quot;</span> <span class="hljs-attr">flowable:userType</span>=<span class="hljs-string">&quot;assignee&quot;</span> <span class="hljs-attr">flowable:dataType</span>=<span class="hljs-string">&quot;fixed&quot;</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">extensionElements</span>&gt;</span><br>       <span class="hljs-tag">&lt;<span class="hljs-name">flowable:properties</span> /&gt;</span><br>     <span class="hljs-tag">&lt;/<span class="hljs-name">extensionElements</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">incoming</span>&gt;</span>Flow_1gldaiz<span class="hljs-tag">&lt;/<span class="hljs-name">incoming</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">outgoing</span>&gt;</span>Flow_08pelnj<span class="hljs-tag">&lt;/<span class="hljs-name">outgoing</span>&gt;</span><br>   <span class="hljs-tag">&lt;/<span class="hljs-name">userTask</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">endEvent</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;Event_07og00d&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;结束&quot;</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">incoming</span>&gt;</span>Flow_08pelnj<span class="hljs-tag">&lt;/<span class="hljs-name">incoming</span>&gt;</span><br>   <span class="hljs-tag">&lt;/<span class="hljs-name">endEvent</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">sequenceFlow</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;Flow_03y5jhz&quot;</span> <span class="hljs-attr">sourceRef</span>=<span class="hljs-string">&quot;start_event&quot;</span> <span class="hljs-attr">targetRef</span>=<span class="hljs-string">&quot;Activity_0egx7q1&quot;</span> /&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">sequenceFlow</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;Flow_1wluipz&quot;</span> <span class="hljs-attr">sourceRef</span>=<span class="hljs-string">&quot;Activity_0egx7q1&quot;</span> <span class="hljs-attr">targetRef</span>=<span class="hljs-string">&quot;Activity_0ovnvli&quot;</span> /&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">sequenceFlow</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;Flow_1gldaiz&quot;</span> <span class="hljs-attr">sourceRef</span>=<span class="hljs-string">&quot;Activity_0ovnvli&quot;</span> <span class="hljs-attr">targetRef</span>=<span class="hljs-string">&quot;Activity_11blnld&quot;</span> /&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">sequenceFlow</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;Flow_08pelnj&quot;</span> <span class="hljs-attr">sourceRef</span>=<span class="hljs-string">&quot;Activity_11blnld&quot;</span> <span class="hljs-attr">targetRef</span>=<span class="hljs-string">&quot;Event_07og00d&quot;</span> /&gt;</span><br> <span class="hljs-tag">&lt;/<span class="hljs-name">process</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<h2 id="部署一个审核流程"><a href="#部署一个审核流程" class="headerlink" title="部署一个审核流程"></a>部署一个审核流程</h2><p>下面通过部署上文中的xml形式定义的审核流程，了解flowable中涉及到的表以及对应的关系</p>
+<ol>
+<li>流程部署代码<br>流程部署通过repositoryService进行，使用流程引擎processEngine获得。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java">      <span class="hljs-comment">// 部署流程 获取RepositoryService对象</span><br>      <span class="hljs-type">RepositoryService</span> <span class="hljs-variable">repositoryService</span> <span class="hljs-operator">=</span> processEngine.getRepositoryService();<br>      <span class="hljs-type">Deployment</span> <span class="hljs-variable">deployment</span> <span class="hljs-operator">=</span> repositoryService.createDeployment()<span class="hljs-comment">// 创建Deployment对象</span><br>              .addClasspathResource(<span class="hljs-string">&quot;测试流程1.bpmn20.xml&quot;</span>) <span class="hljs-comment">// 添加流程部署文件</span><br>              .name(<span class="hljs-string">&quot;部署名称&quot;</span>)<br>              .category(<span class="hljs-string">&quot;部署分类&quot;</span>)<br>              .deploy(); <span class="hljs-comment">// 执行部署操作</span><br><span class="hljs-comment">//设置流程定义类别</span><br><span class="hljs-type">ProcessDefinition</span> <span class="hljs-variable">definition</span> <span class="hljs-operator">=</span> repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();<br>repositoryService.setProcessDefinitionCategory(definition.getId(), <span class="hljs-string">&quot;type1&quot;</span>);<br>		<br></code></pre></td></tr></table></figure></li>
+<li>流程部署具体过程<br>通过查看相关日志，有如下信息。说明在部署时会插入四个对象，这里的对象id已经确定，所以后面再插入的时候可以先插入流程实例，再插入流程部署</li>
+</ol>
+<img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219184334290.png" srcset="/img/loading.gif" lazyload title="hh"/>
+下面根据日志中的insert语句分析具体流程
++ 首先，在ACT_RE_PROCDEF表插入流程定义相关数据，xml中的id，name,documentation(数据库中的DESCRIPTION_)都有对应字段，但CATEGORY_是默认分类，说明flowable:processCategory并不能直接映射到数据库中，可以通过API进行设置。
+
+<img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219184746423.png" srcset="/img/loading.gif" lazyload/>
+ACT_RE_PROCDEF表结构如下，SUSPENSION_STATE_中1表示部署，2表示挂起。
+<img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219184814319.png" srcset="/img/loading.gif" lazyload/>
++ 其次在ACT_RE_DEPLOYMENT表插入流程部署相关信息
+<img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219184907390.png" srcset="/img/loading.gif" lazyload/>
+<img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219184932684.png" srcset="/img/loading.gif" lazyload/>
++ 在ACT_GE_BYTEARRAY中插入部署流程的xml文件的byte数据，包括xml文件和图片形式的文件
+<img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219185023350.png" srcset="/img/loading.gif" lazyload/>
+<img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219185048321.png" srcset="/img/loading.gif" lazyload/>
+总结：流程部署时涉及三个表，其中部署表是最主要的表，流程定义表中关联部署表，并且流程信息的文件表也通过部署ID进行关联。
+## 查看审核流程
+有了上述分析，查看审核流程就很简单了，只是对上述表进行相关查询，可以自己实现，当然最好是使用flowable中的API进行。
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//查询流程定义表</span><br><span class="hljs-type">ProcessDefinition</span> <span class="hljs-variable">processDefinition</span> <span class="hljs-operator">=</span> repositoryService.createProcessDefinitionQuery()<br>                .deploymentId(<span class="hljs-string">&quot;1&quot;</span>)<br>                .singleResult();<br><span class="hljs-comment">//查询流程部署表</span><br><span class="hljs-type">Deployment</span> <span class="hljs-variable">deployment</span> <span class="hljs-operator">=</span> repositoryService.createDeploymentQuery().deploymentId(<span class="hljs-string">&quot;1&quot;</span>).singleResult();<br><span class="hljs-comment">//查询资源表，根据资源名称区分xml文件和图片文件</span><br><span class="hljs-type">InputStream</span> <span class="hljs-variable">xml</span> <span class="hljs-operator">=</span> repositoryService.getResourceAsStream(processDefinition.getDeploymentId(), processDefinition.getResourceName());<br><span class="hljs-type">InputStream</span> <span class="hljs-variable">png</span> <span class="hljs-operator">=</span> repositoryService.getResourceAsStream(processDefinition.getDeploymentId(), processDefinition.getDiagramResourceName());  <br></code></pre></td></tr></table></figure>
+上述只能获取图片的二进制流，flowable提供了更加便捷的方式
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">ProcessDefinition</span> <span class="hljs-variable">processDefinition</span> <span class="hljs-operator">=</span> repositoryService.createProcessDefinitionQuery().deploymentId(deployId).singleResult();<br><span class="hljs-comment">//获得图片流</span><br><span class="hljs-type">DefaultProcessDiagramGenerator</span> <span class="hljs-variable">diagramGenerator</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">DefaultProcessDiagramGenerator</span>();<br><span class="hljs-type">BpmnModel</span> <span class="hljs-variable">bpmnModel</span> <span class="hljs-operator">=</span> repositoryService.getBpmnModel(processDefinition.getId());<br><span class="hljs-comment">//输出为图片</span><br><span class="hljs-keyword">return</span> diagramGenerator.generateDiagram(<br>				bpmnModel,<br>				<span class="hljs-string">&quot;png&quot;</span>,<br>				Collections.emptyList(),<br>				Collections.emptyList(),<br>				<span class="hljs-string">&quot;宋体&quot;</span>,<br>				<span class="hljs-string">&quot;宋体&quot;</span>,<br>				<span class="hljs-string">&quot;宋体&quot;</span>,<br>				<span class="hljs-literal">null</span>,<br>				<span class="hljs-number">1.0</span>,<br>				<span class="hljs-literal">false</span>);<br></code></pre></td></tr></table></figure>
+## 启动流程实例
+启动流程实例需要使用runtimeService，样例代码如下：
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//启动前可以设置流程启动的用户id</span><br>identityService.setAuthenticatedUserId(sysUser.getUserId().toString());<br><span class="hljs-comment">// 启动流程实例通过 RuntimeService 对象</span><br><span class="hljs-type">RuntimeService</span> <span class="hljs-variable">runtimeService</span> <span class="hljs-operator">=</span> processEngine.getRuntimeService();<br><span class="hljs-comment">// 构建流程变量</span><br>Map&lt;String,Object&gt; variables = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<br>variables.put(<span class="hljs-string">&quot;employee&quot;</span>,<span class="hljs-string">&quot;张三&quot;</span>) ;<span class="hljs-comment">// 谁申请请假</span><br>variables.put(<span class="hljs-string">&quot;nrOfHolidays&quot;</span>,<span class="hljs-number">3</span>); <span class="hljs-comment">// 请几天假</span><br>variables.put(<span class="hljs-string">&quot;description&quot;</span>,<span class="hljs-string">&quot;工作累了，想出去玩玩&quot;</span>); <span class="hljs-comment">// 请假的原因</span><br><span class="hljs-comment">// 启动流程实例，第一个参数是流程定义的id</span><br><span class="hljs-type">ProcessInstance</span> <span class="hljs-variable">processInstance</span> <span class="hljs-operator">=</span> runtimeService<br>				.startProcessInstanceByKey(<span class="hljs-string">&quot;flow_z81n3ymf&quot;</span>, variables);<span class="hljs-comment">// 启动流程实例</span><br><span class="hljs-comment">// 输出相关的流程实例信息</span><br>System.out.println(<span class="hljs-string">&quot;流程定义的ID：&quot;</span> + processInstance.getProcessDefinitionId());<br>System.out.println(<span class="hljs-string">&quot;流程实例的ID：&quot;</span> + processInstance.getId());<br>System.out.println(<span class="hljs-string">&quot;当前活动的ID：&quot;</span> + processInstance.getActivityId());<br></code></pre></td></tr></table></figure>
+上述代码很简单，下面分析下具体执行过程。在启动流程实例时，传入了涉及的参数，如在请假流程中的申请人、请假天数和理由，实际上可以传递任意参数，如果不想直接传入或业务有其他要求，可以另外新建申请表，才启动流程实例时传入申请表中记录的id即可，在需要信息时再根据记录id去查询记录。
+启动流程实例涉及如下表插入操作
+<img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219185112395.png" srcset="/img/loading.gif" lazyload/>
+启动流程实例时，涉及到流程实例表和历史流程实例表两个插入
+传入参数，涉及到参数表和历史参数表的插入，几条参数几个插入
+流程从start圆圈开始启动，并进入第一个方块，涉及到两个历史活跃实例，分别是start圆圈的和第一个方块的
+流程启动后，到第一个方块，会产生一个任务，涉及一个任务的插入
+流程启动后，需要一个执行实例，涉及到执行实例的插入
+
+<ol>
+<li>具体操作中先向ACT_HI_VARINST表插入传递的数据，三条数据一起插入。<img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219185550913.png" srcset="/img/loading.gif" lazyload/></li>
+</ol>
+<p>这是对应的表结构，主要包括流程实例ID，执行实例ID,任务实例ID,当前是流程实例的数据，因此任务ID为空<br><img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219185615373.png" srcset="/img/loading.gif" lazyload/></p>
+<ol start="2">
+<li>向ACT_HI_TASKINST插入任务信息<img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219185639858.png" srcset="/img/loading.gif" lazyload/></li>
+</ol>
+<p>关键信息包括流程定义ID,流程实例ID,执行实例ID,任务定义KEY等信息，还有业务相关信息，如办理人、开始时间、认领时间，在对任务进行操作时，任务历史信息都会跟着改变。<br><img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219185708202.png" srcset="/img/loading.gif" lazyload/></p>
+<ol start="3">
+<li>历史流程实例插入<img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219185727609.png" srcset="/img/loading.gif" lazyload/></li>
+</ol>
+<img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219185743109.png" srcset="/img/loading.gif" lazyload/>
+
+<ol start="4">
+<li>然后是历史活动的节点表<img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219185824710.png" srcset="/img/loading.gif" lazyload/></li>
+</ol>
+<p>包括流程实例ID,执行实例ID等<br><img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219185847223.png" srcset="/img/loading.gif" lazyload/></p>
+<ol start="5">
+<li><p>执行实例插入act_ru_execution，<br>ACT_RU_EXECUTION表即运行时流程执行实例表。该表主要用于存储流程运行时的执行实例。流程启动时，会生成一个流程实例，以及相应的执行实例，流程实例和执行实例都存储在ACT_RU_EXECUTION表中。因此实行了两条插入。执行实例有个字段PARENT_ID_指向流程实例</p>
+<img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219185904585.png" srcset="/img/loading.gif" lazyload/>
+</li>
+<li><p>运行任务的插入</p>
+<img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219185920949.png" srcset="/img/loading.gif" lazyload/></li>
+</ol>
+<img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219185936011.png" srcset="/img/loading.gif" lazyload/>
+
+<ol start="7">
+<li>运行时数据插入 同历史数据插入<img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219185957447.png" srcset="/img/loading.gif" lazyload/></li>
+</ol>
+<p>总结，启动一个任务涉及到上述7张表的操作，需要注意的是历史实例表是单独一张表，流程实例和流程执行在一张流程执行表中，开启一个流程实例会在流程实例表添加两条数据，流程执行的PARENT_ID_指向流程实例。</p>
+<h2 id="查看我的待执行的任务"><a href="#查看我的待执行的任务" class="headerlink" title="查看我的待执行的任务"></a>查看我的待执行的任务</h2><p>流程已经启动了，卡在申请人的步骤，现在申请人需要查看他的任务，并进行相关处理。在我们这里，并没有指定申请人的任务执行人，一般来说启动一个流程实例时，同时会把申请人的环节执行掉，现在我们使用部署id来获得这个任务，通常是使用候选人或候选组进行查找。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">TaskService</span> <span class="hljs-variable">taskService</span> <span class="hljs-operator">=</span> processEngine.getTaskService();<br><span class="hljs-type">Task</span> <span class="hljs-variable">task</span> <span class="hljs-operator">=</span> taskService.createTaskQuery().deploymentId(<span class="hljs-string">&quot;1&quot;</span>).singleResult();<br>System.out.println(<span class="hljs-string">&quot;task.getProcessDefinitionId() = &quot;</span> + task.getProcessDefinitionId());<br>System.out.println(<span class="hljs-string">&quot;task.getId() = &quot;</span> + task.getId());<br>System.out.println(<span class="hljs-string">&quot;task.getAssignee() = &quot;</span> + task.getAssignee());<br>System.out.println(<span class="hljs-string">&quot;task.getName() = &quot;</span> + task.getName());<br>HashMap&lt;String, Object&gt; map = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<br>map.put(<span class="hljs-string">&quot;name&quot;</span>,<span class="hljs-string">&quot;张三&quot;</span>);<br><span class="hljs-comment">//taskService.addComment()审核时还可以添加评论</span><br>taskService.complete(task.getId(),map);<br></code></pre></td></tr></table></figure>
+<p>涉及到8个插入，3个更新，1个删除<br><img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219190039672.png" srcset="/img/loading.gif" lazyload/></p>
+<p>完成后进入下一个方块，即插入新的任务，活跃节点，同时插入到历史任务，还有方块对应的历史活跃节点，更新执行实例的活跃节点到这个方块，删除执行完的任务，更新历史中这个任务和活跃节点的完成时间完成人等信息。<br>3插3更1删<br>添加了一条数据，涉及到数据和历史数据插入，这里的数据还是属于流程实例的，不是任务的，因此表中任务id为空。<br>2插<br>ACT_HI_IDENTITYLINK表即历史流程与身份关系表，其字段如下表所示。该表主要用于存储历史流程实例、任务实例与参与者之间的关联关系。<br><img src="https://cdn.jsdelivr.net/gh/XiaovvDe/my_pic_upload/imgs/20250219190018948.png" srcset="/img/loading.gif" lazyload/><br>记录执行完的任务的执行人信息，和流程的参与人信息。<br>一个任务执行后会在历史表中记录执行人信息对应任务ID，和执行人信息对应执行实例<br>一个任务完成执行，在act_ru_identitylink中会存放执行人对应执行实例的记录<br>（这个就是记录执行人相关信息，在task中一般都有执行人，这个表的作用我暂时还不知道）<br>3插</p>
+<h2 id="继续执行任务"><a href="#继续执行任务" class="headerlink" title="继续执行任务"></a>继续执行任务</h2><p>当前任务到了一级审核人，对应id为1，因此可以通过这个查询到任务，并执行。</p>
+<p><strong>最基本的操作就到这里，涉及到了关键的几张表，以及一些我觉得会忽略的细节，可以搭配贺波的深入Activit流程引擎以及flowable的官方文档<a target="_blank" rel="noopener" href="https://www.flowable.com/open-source/docs/">https://www.flowable.com/open-source/docs/</a> 进行理解。上文如有错误，欢迎指正，谢谢。</strong></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Flowable学习笔记 讲清涉及的关键表</div>
+      <div>http://xiaovvde.github.io/2025/01/30/flowable学习笔记/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Zou Shuo</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年1月30日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/01/10/Java%20Exception%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/" title="Java Exception相关知识总结">
+                        <span class="hidden-mobile">Java Exception相关知识总结</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"kJZ9kS9GhXYilolcsoIxnAj7-MdYXbMMI","appKey":"S3ot9ywY7g6oBmilaPLlvlzJ","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://kjz9ks9g.api.lncldglobal.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>zs</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>yzw</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
