@@ -19,22 +19,22 @@
   <meta name="author" content="Zou Shuo">
   <meta name="keywords" content="">
   
-    <meta name="description" content="hexo基本操作 hexo clean   清除缓存 hexo g       编译生成 hexo deploy  部署到github hexo s      本地运行查看">
+    <meta name="description" content="笔试知识点记录 jdk代理手写 1234567891011121314151617public static Object getProxy(BigStar star)&#123;        Object o &#x3D; Proxy.newProxyInstance(star.getClass().getClassLoader(), star.getClass().getInterfaces(), n">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hexo基本操作">
-<meta property="og:url" content="http://xiaovvde.github.io/2023/09/01/hexo%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:title" content="笔试题记录">
+<meta property="og:url" content="http://xiaovvde.github.io/2025/03/13/0313%E7%AC%94%E8%AF%95%E6%96%B0%E7%9F%A5%E8%AF%86/index.html">
 <meta property="og:site_name" content="邹硕的博客">
-<meta property="og:description" content="hexo基本操作 hexo clean   清除缓存 hexo g       编译生成 hexo deploy  部署到github hexo s      本地运行查看">
+<meta property="og:description" content="笔试知识点记录 jdk代理手写 1234567891011121314151617public static Object getProxy(BigStar star)&#123;        Object o &#x3D; Proxy.newProxyInstance(star.getClass().getClassLoader(), star.getClass().getInterfaces(), n">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-09-01T07:51:31.000Z">
-<meta property="article:modified_time" content="2025-03-06T15:50:38.620Z">
+<meta property="article:published_time" content="2025-03-13T07:51:31.000Z">
+<meta property="article:modified_time" content="2025-03-13T16:28:40.163Z">
 <meta property="article:author" content="Zou Shuo">
-<meta property="article:tag" content="基础">
+<meta property="article:tag" content="笔试">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>hexo基本操作 - 邹硕的博客</title>
+  <title>笔试题记录 - 邹硕的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -200,7 +200,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="hexo基本操作"></span>
+            <span id="subtitle" data-typed-text="笔试题记录"></span>
           
         </div>
 
@@ -211,8 +211,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-09-01 15:51" pubdate>
-          2023年9月1日 下午
+        <time datetime="2025-03-13 15:51" pubdate>
+          2025年3月13日 下午
         </time>
       </span>
     
@@ -223,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          22 字
+          372 字
         
       </span>
     
@@ -234,7 +234,7 @@
         
         
         
-          1 分钟
+          4 分钟
         
       </span>
     
@@ -271,16 +271,30 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">hexo基本操作</h1>
+            <h1 id="seo-header">笔试题记录</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="hexo基本操作"><a href="#hexo基本操作" class="headerlink" title="hexo基本操作"></a>hexo基本操作</h2><ol>
-<li>hexo clean   清除缓存</li>
-<li>hexo g       编译生成</li>
-<li>hexo deploy  部署到github</li>
-<li>hexo s      本地运行查看</li>
+                <h1 id="笔试知识点记录"><a href="#笔试知识点记录" class="headerlink" title="笔试知识点记录"></a>笔试知识点记录</h1><ol>
+<li><p>jdk代理手写</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Object <span class="hljs-title function_">getProxy</span><span class="hljs-params">(BigStar star)</span>&#123;<br>        <span class="hljs-type">Object</span> <span class="hljs-variable">o</span> <span class="hljs-operator">=</span> Proxy.newProxyInstance(star.getClass().getClassLoader(), star.getClass().getInterfaces(), <span class="hljs-keyword">new</span> <span class="hljs-title class_">InvocationHandler</span>() &#123;<br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">invoke</span><span class="hljs-params">(Object proxy, Method method, Object[] args)</span> <span class="hljs-keyword">throws</span> Throwable &#123;<br>                Object invoke;<br>                <span class="hljs-keyword">if</span> (method.getName().equals(<span class="hljs-string">&quot;sing&quot;</span>)) &#123;<br>                    System.out.println(<span class="hljs-string">&quot;给钱&quot;</span>);<br>                    invoke = method.invoke(star, args);<br>                    System.out.println(<span class="hljs-string">&quot;谢谢&quot;</span>);<br>                &#125; <span class="hljs-keyword">else</span> &#123;<br>                    invoke = method.invoke(star, args);<br>                &#125;<br>                <span class="hljs-keyword">return</span> invoke;<br>            &#125;<br>        &#125;);<br>        <span class="hljs-keyword">return</span> o;<br>    &#125;<br></code></pre></td></tr></table></figure></li>
+<li><p>http常见状态码<br>2XX:成功状态码<br> 200 ok请求成功<br> 201 created 请求成功并服务端创建成功<br> 202 accepted 请求已收到，但尚未处理<br>3XX:重定向<br> 301 永久重定向<br> 302 临时重定向<br>4XX:客户端错误<br> 400 HTTP请求错误（参数不合法）<br> 401 未认证<br> 403 拒绝（非法请求）<br> 404 请求资源未找到<br>5XX:服务端错误<br> 500 服务端运行错误</p>
+</li>
+<li><p>UDP设计可靠连接，数据重试机制</p>
+</li>
+<li><p>SQL获取第二行</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs SQL"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> emp <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> id <span class="hljs-keyword">DESC</span> limit <span class="hljs-number">1</span> <span class="hljs-keyword">OFFSET</span> <span class="hljs-number">1</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> emp <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> id <span class="hljs-keyword">DESC</span> limit <span class="hljs-number">1</span> , <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure></li>
+<li><p>最大公约数计算gcd</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-title function_">gcd</span><span class="hljs-params">(<span class="hljs-type">int</span> a,<span class="hljs-type">int</span> b)</span>&#123;<br>		<span class="hljs-keyword">return</span> b==<span class="hljs-number">0</span>?a:gcd(b,a%b);<br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li><p>最小公倍数计算<br>a*b&#x2F;gcd(a,b)</p>
+</li>
+<li><p>计算小于等于n的质数数量</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-title function_">countPrimeFactors</span><span class="hljs-params">(<span class="hljs-type">int</span> num)</span> &#123;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">count</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">2</span>; i * i &lt;= num; i++) &#123;<br>            <span class="hljs-keyword">if</span> (num % i == <span class="hljs-number">0</span>) &#123;<br>                count++;<br>                <span class="hljs-keyword">while</span> (num % i == <span class="hljs-number">0</span>) &#123;<br>                    num /= i;<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (num &gt; <span class="hljs-number">1</span>) &#123;<br>            count++;<br>        &#125;<br>        <span class="hljs-keyword">return</span> count;<br>    &#125;<br></code></pre></td></tr></table></figure></li>
+<li><p>int类型Arrays.sort()默认升序排序，要想降序可以转换为Integer，然后使用Arrays.sort(Compator)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>		Integer[] arri = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Integer</span>[]&#123;<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">1</span>&#125;;<br>		Arrays.sort(arri, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Comparator</span>&lt;Integer&gt;() &#123;<br>				<span class="hljs-meta">@Override</span><br>				<span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">compare</span><span class="hljs-params">(Integer o1, Integer o2)</span> &#123;<br>						<span class="hljs-keyword">return</span> o2-o1;<br>				&#125;<br>		&#125;);<br>		System.out.println(Arrays.toString(arri));<br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li><p>java新特性<br>java8<br> 接口，default方法、static方法<br> 函数式接口，接口里只有一个抽象方法<br> Lambda表达式<br> Stream流<br> Optional<br> Date-Time API</p>
+</li>
 </ol>
 
                 
@@ -294,7 +308,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E5%9F%BA%E7%A1%80/" class="print-no-link">#基础</a>
+        <a href="/tags/%E7%AC%94%E8%AF%95/" class="print-no-link">#笔试</a>
       
     </div>
   
@@ -306,8 +320,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>hexo基本操作</div>
-      <div>http://xiaovvde.github.io/2023/09/01/hexo基本操作/</div>
+      <div>笔试题记录</div>
+      <div>http://xiaovvde.github.io/2025/03/13/0313笔试新知识/</div>
     </div>
     <div class="license-meta">
       
@@ -319,7 +333,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年9月1日</div>
+          <div>2025年3月13日</div>
         </div>
       
       
@@ -351,15 +365,15 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/09/02/%E7%AC%94%E8%AF%95%E9%A2%98%E8%AE%B0%E5%BD%95/" title="笔试题记录">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">笔试题记录</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2025/03/10/%E6%B3%9B%E5%9E%8B%E6%93%A6%E9%99%A4/" title="泛型擦除">
+                        <span class="hidden-mobile">泛型擦除</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>
